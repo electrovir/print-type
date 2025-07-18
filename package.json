@@ -81,7 +81,7 @@
         "prettier-plugin-packagejson": "^2.5.18",
         "prettier-plugin-sort-json": "^4.1.1",
         "prettier-plugin-toml": "^2.0.6",
-        "test-as-package": "^2.0.2",
+        "test-as-package": "^2.0.3",
         "typedoc": "^0.28.7",
         "typescript": "^5.8.3",
         "typescript-eslint": "^8.37.0",
