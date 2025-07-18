@@ -1,5 +1,3 @@
-export {};
-
 type ComplexType = {
     // Basic properties
     id: string;
@@ -83,3 +81,6 @@ type ComplexType = {
         };
     };
 };
+
+// for this to be a module file
+export {};

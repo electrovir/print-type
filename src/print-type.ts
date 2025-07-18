@@ -1,7 +1,7 @@
 import {findAncestor} from '@augment-vir/node';
 import {existsSync} from 'node:fs';
 import {dirname, join} from 'node:path';
-import {Node, Project, type Type} from 'ts-morph';
+import {Node, Project, TypeFormatFlags, type Type} from 'ts-morph';
 
 /**
  * Print the expanded type from a file path and a name within that file.
@@ -60,5 +60,17 @@ function recursivelyPrintType(inputType: Type): string {
             return declaration.getTypeNodeOrThrow().getText();
         }
     }
-    return inputType.getText();
+    const text = inputType.getText(
+        undefined,
+        TypeFormatFlags.UseTypeOfFunction |
+            TypeFormatFlags.NoTruncation |
+            TypeFormatFlags.UseFullyQualifiedType |
+            TypeFormatFlags.WriteArrowStyleSignature |
+            TypeFormatFlags.WriteTypeArgumentsOfSignature |
+            TypeFormatFlags.UseSingleQuotesForStringLiteralType |
+            TypeFormatFlags.UseAliasDefinedOutsideCurrentScope |
+            TypeFormatFlags.AllowUniqueESSymbolType,
+    );
+
+    return text.replace(/import\(".*?"\)\./g, '');
 }
