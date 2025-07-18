@@ -1,6 +1,6 @@
 {
     "name": "print-type",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Print a fully expanded and resolved type definition.",
     "keywords": [
         "TypeScript",
