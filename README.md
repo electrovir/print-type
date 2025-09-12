@@ -1,6 +1,8 @@
 # print-type
 
-A CLI for printing fully-expanded Typescript types from variables, type aliases, etc.
+Prints fully-expanded Typescript types from variables, type aliases, etc. to a string (API) or the terminal (CLI).
+
+Reference docs: https://electrovir.github.io/print-type/
 
 ## Install
 
@@ -19,11 +21,12 @@ npm i -g print-type
 (`npx` should be omitted if you installed this package globally.)
 
 ```sh
-npx print-type <path-to-file.ts> <name-to-expand>
+npx print-type <path-to-file.ts> <name-to-expand> [--deep]
 ```
 
 -   `<name-to-expand>`: the name of the thing to expand, whether it be a variable, a type definition, anything.
 -   `<path-to-file.ts>`: path to the file that contains the name of the thing to expand.
+-   `-deep`: optional flag that recurses even deeper into types.
 
 ## Examples
 

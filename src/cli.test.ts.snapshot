@@ -3,11 +3,11 @@ exports[`print-type package > handles a complex type 1`] = `
 `;
 
 exports[`print-type package > handles a missing file 1`] = `
-"{\\"stdout\\":\\"\\",\\"stderr\\":\\"Error: Failed to find file: 'invalid-file-paths.ts'\\\\n    at printTypeFromFile \\\\u001b[90m(/\\\\u001b[39mnode_modules/\\\\u001b[4mprint-type\\\\u001b[24m/src/print-type.ts:13:15\\\\u001b[90m)\\\\u001b[39m\\\\n    at runPrintTypeCli \\\\u001b[90m(/\\\\u001b[39mnode_modules/\\\\u001b[4mprint-type\\\\u001b[24m/src/cli.ts:26:28\\\\u001b[90m)\\\\u001b[39m\\\\n    at <anonymous> \\\\u001b[90m(/\\\\u001b[39mnode_modules/\\\\u001b[4mprint-type\\\\u001b[24m/src/cli.script.ts:3:1\\\\u001b[90m)\\\\u001b[39m\\\\n\\",\\"exitCode\\":1}"
+"{\\"stdout\\":\\"\\",\\"stderr\\":\\"\\\\u001b[31m\\\\u001b[1mError: Failed to find file: 'invalid-file-paths.ts'\\\\n    at printTypeFromFile (/node_modules/print-type/src/print-type.ts:29:15)\\\\n    at runPrintTypeCli (/node_modules/print-type/src/cli.ts:35:28)\\\\n    at <anonymous> (/node_modules/print-type/src/cli.script.ts:3:1)\\\\u001b[0m\\\\n\\",\\"exitCode\\":1}"
 `;
 
 exports[`print-type package > handles a missing type alias 1`] = `
-"{\\"stdout\\":\\"\\",\\"stderr\\":\\"Error: Failed to find 'MissingTypeName' in '/test-files/has-no-types.ts'.\\\\n    at printTypeFromFile \\\\u001b[90m(/\\\\u001b[39mnode_modules/\\\\u001b[4mprint-type\\\\u001b[24m/src/print-type.ts:40:15\\\\u001b[90m)\\\\u001b[39m\\\\n    at runPrintTypeCli \\\\u001b[90m(/\\\\u001b[39mnode_modules/\\\\u001b[4mprint-type\\\\u001b[24m/src/cli.ts:26:28\\\\u001b[90m)\\\\u001b[39m\\\\n    at <anonymous> \\\\u001b[90m(/\\\\u001b[39mnode_modules/\\\\u001b[4mprint-type\\\\u001b[24m/src/cli.script.ts:3:1\\\\u001b[90m)\\\\u001b[39m\\\\n\\",\\"exitCode\\":1}"
+"{\\"stdout\\":\\"\\",\\"stderr\\":\\"\\\\u001b[31m\\\\u001b[1mError: Failed to find 'MissingTypeName' in '/test-files/has-no-types.ts'.\\\\n    at printTypeFromFile (/node_modules/print-type/src/print-type.ts:56:15)\\\\n    at runPrintTypeCli (/node_modules/print-type/src/cli.ts:35:28)\\\\n    at <anonymous> (/node_modules/print-type/src/cli.script.ts:3:1)\\\\u001b[0m\\\\n\\",\\"exitCode\\":1}"
 `;
 
 exports[`print-type package > handles a value 1`] = `

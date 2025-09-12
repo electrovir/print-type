@@ -1,3 +1,5 @@
+import {PathTree} from 'spa-router-vir';
+
 type ComplexType = {
     // Basic properties
     id: string;
@@ -82,5 +84,48 @@ type ComplexType = {
     };
 };
 
-// for this to be a module file
-export {};
+const mockPathTree = new PathTree({
+    allowBare: true,
+    children: {
+        app: {
+            allowBare: true,
+            children: {
+                uploads: {
+                    allowBare: false,
+                    children: {
+                        patients: {
+                            disable: true,
+                            children: {},
+                            allowBare: true,
+                        },
+                        files: {
+                            allowBare: true,
+                            children: {
+                                ':file-path': {
+                                    allowBare: true,
+                                    children: {
+                                        view: {},
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+                settings: {
+                    allowBare: true,
+                    children: {
+                        disabled: {
+                            allowBare: true,
+                            disable: true,
+                            children: {},
+                        },
+                    },
+                },
+            },
+        },
+        withAny: {
+            anyChildren: true,
+        },
+        legal: {},
+    },
+});

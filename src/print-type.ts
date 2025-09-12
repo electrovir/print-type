@@ -1,14 +1,30 @@
+import {type PartialWithUndefined} from '@augment-vir/common';
 import {findAncestor} from '@augment-vir/node';
 import {existsSync} from 'node:fs';
 import {dirname, join} from 'node:path';
 import {Node, Project, TypeFormatFlags, type Type} from 'ts-morph';
+import {printTypeDeep} from './print-deep.js';
+
+/**
+ * Params for {@link printTypeFromFile}.
+ *
+ * @category Internal
+ */
+export type PrintTypeFromFileParams = {
+    filePath: string;
+    symbolName: string;
+} & PrintTypeOptions;
 
 /**
  * Print the expanded type from a file path and a name within that file.
  *
- * @category Main
+ * @category API
  */
-export function printTypeFromFile(filePath: string, symbolName: string) {
+export function printTypeFromFile({
+    filePath,
+    symbolName,
+    ...options
+}: Readonly<PrintTypeFromFileParams>): string {
     if (!existsSync(filePath)) {
         throw new Error(`Failed to find file: '${filePath}'`);
     }
@@ -40,37 +56,51 @@ export function printTypeFromFile(filePath: string, symbolName: string) {
         throw new Error(`Failed to find '${symbolName}' in '${filePath}'.`);
     }
 
-    return printType(symbol.getType());
+    return printType(symbol.getType(), options);
 }
+
+/**
+ * Options for `printType`.
+ *
+ * @category Internal
+ */
+export type PrintTypeOptions = PartialWithUndefined<{
+    /**
+     * Take much longer to print much more output with lots of potential for it all to go wrong.
+     *
+     * @default false
+     */
+    deep: boolean;
+}>;
 
 /**
  * Print an already extracted `Type` (extracted via the `ts-morph` package).
  *
- * @category Main
+ * @category Internal
  */
-export function printType(inputType: Type): string {
-    return recursivelyPrintType(inputType);
-}
-
-function recursivelyPrintType(inputType: Type): string {
-    const symbol = inputType.getAliasSymbol();
-    if (symbol) {
-        const declaration = symbol.getDeclarations()[0];
-        if (declaration && Node.isTypeAliasDeclaration(declaration)) {
-            return declaration.getTypeNodeOrThrow().getText();
+export function printType(inputType: Type, options: Readonly<PrintTypeOptions> = {}): string {
+    if (options.deep) {
+        return printTypeDeep(inputType);
+    } else {
+        const symbol = inputType.getAliasSymbol();
+        if (symbol) {
+            const declaration = symbol.getDeclarations()[0];
+            if (declaration && Node.isTypeAliasDeclaration(declaration)) {
+                return declaration.getTypeNodeOrThrow().getText();
+            }
         }
-    }
-    const text = inputType.getText(
-        undefined,
-        TypeFormatFlags.UseTypeOfFunction |
-            TypeFormatFlags.NoTruncation |
-            TypeFormatFlags.UseFullyQualifiedType |
-            TypeFormatFlags.WriteArrowStyleSignature |
-            TypeFormatFlags.WriteTypeArgumentsOfSignature |
-            TypeFormatFlags.UseSingleQuotesForStringLiteralType |
-            TypeFormatFlags.UseAliasDefinedOutsideCurrentScope |
-            TypeFormatFlags.AllowUniqueESSymbolType,
-    );
+        const text = inputType.getText(
+            undefined,
+            TypeFormatFlags.UseTypeOfFunction |
+                TypeFormatFlags.NoTruncation |
+                TypeFormatFlags.UseFullyQualifiedType |
+                TypeFormatFlags.WriteArrowStyleSignature |
+                TypeFormatFlags.WriteTypeArgumentsOfSignature |
+                TypeFormatFlags.UseSingleQuotesForStringLiteralType |
+                TypeFormatFlags.UseAliasDefinedOutsideCurrentScope |
+                TypeFormatFlags.AllowUniqueESSymbolType,
+        );
 
-    return text.replace(/import\(".*?"\)\./g, '');
+        return text.replace(/import\(".*?"\)\./g, '');
+    }
 }

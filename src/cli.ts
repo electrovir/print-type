@@ -1,4 +1,5 @@
-import {extractRelevantArgs} from '@augment-vir/node';
+import {log} from '@augment-vir/common';
+import {FlagRequirement, parseArgs} from 'cli-vir';
 import {printTypeFromFile} from './print-type.js';
 
 /**
@@ -8,27 +9,35 @@ import {printTypeFromFile} from './print-type.js';
  */
 export function runPrintTypeCli(rawArgs: ReadonlyArray<string>, importMeta: ImportMeta) {
     try {
-        const relevantArgs = extractRelevantArgs({
-            binName: 'print-type',
-            fileName: importMeta.filename,
+        const {filePath, symbolName, deep} = parseArgs(
             rawArgs,
-        });
+            {
+                filePath: {
+                    position: 0,
+                    required: true,
+                },
+                symbolName: {
+                    position: 1,
+                    required: true,
+                },
+                deep: {
+                    flag: {
+                        valueRequirement: FlagRequirement.Blocked,
+                    },
+                },
+            },
+            {
+                binName: 'print-type',
+                importMeta,
+            },
+        );
 
-        const filePath = relevantArgs[0];
-        const typeName = relevantArgs[1];
-
-        if (!filePath) {
-            throw new Error('Missing file path argument (should be first).');
-        } else if (!typeName) {
-            throw new Error('Missing type alias name argument (should be second).');
-        }
-
-        const typeString = printTypeFromFile(filePath, typeName);
+        const typeString = printTypeFromFile({filePath, symbolName, deep});
 
         console.info(typeString);
         process.exit(0);
     } catch (error) {
-        console.error(error);
+        log.error(error);
         process.exit(1);
     }
 }
